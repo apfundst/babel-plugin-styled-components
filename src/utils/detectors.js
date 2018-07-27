@@ -44,9 +44,9 @@ export const isStyled = (tag, state) => {
   } else {
     return (
       (t.isMemberExpression(tag) &&
-        tag.object.name === importLocalName('default', state)) ||
+        (tag.object.name === importLocalName('styled__default', state) || tag.object.name === importLocalName('default', state))) ||
       (t.isCallExpression(tag) &&
-        tag.callee.name === importLocalName('default', state))
+        (tag.callee.name === importLocalName('styled__default', state) || tag.object.name === importLocalName('default', state)))
     )
   }
 }

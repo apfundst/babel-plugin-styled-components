@@ -4,7 +4,7 @@ import { transformFileSync } from 'babel-core'
 import plugin from '../src'
 
 describe('fixtures', () => {
-  const fixturesDir = path.join(__dirname, 'fixtures')
+  const fixturesDir = path.join(__dirname, 'main-fix')
   fs
     .readdirSync(fixturesDir)
     .sort()
