@@ -20,12 +20,12 @@ export default (path, state) => {
     t.isArrayExpression(path.node.init.arguments[0]) &&
     isStyled(path.node.init.callee, state)
   ) {
-    if(!path.node.init.callee.arguments || path.node.init.callee.arguments[0].value !== 'keyframes') {
+    if (path.node.init.callee.arguments || (Array.isArray(path.node.init.callee.arguments) && path.node.init.callee.arguments[0].value !== 'keyframes')) {
       console.log('alter transpiled styles', path.node.id.name)
       const stylesArray = path.node.init.arguments[0].elements
 
       if (stylesArray.length === 1) {
-        const element = useRootNode(state) + ' { ' + stylesArray[0].value + ' }';
+        const element = useRootNode(state) + ' { ' + stylesArray[0].value + ' }'
         path.node.init.arguments[0].elements[0].value = element
       } else {
         const firstElement = useRootNode(state) + ' { ' + stylesArray[0].value
@@ -33,6 +33,8 @@ export default (path, state) => {
         const lastElement = stylesArray[stylesArray.length - 1].value + ' }'
         path.node.init.arguments[0].elements[stylesArray.length - 1].value = lastElement
       }
+    } else if ( path.node.init.callee.arguments && Array.isArray(path.node.init.callee.arguments) && path.node.init.callee.arguments[0].value === 'keyframes') {
+      path.node.init.callee.callee.name = 'styled__default'
     }
 
 
